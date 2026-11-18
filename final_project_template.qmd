@@ -61,11 +61,11 @@ Which variables have you logged in the past? Which variables do you think you sh
 
 This is an optional ungraded area for any extra EDA you would like to do now, like checking variables vs. predictors
 
-# SECTION 2: MIA
-
 ## CV or testing/training for overfitting 
 
 Choose between CV or a testing/training split for overfitting. Which one did you pick and why? If doing a training/testing split, do it here.
+
+# SECTION 2: MIA
 
 ## Regression model - Logistic Regression
 
