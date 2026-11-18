@@ -1,0 +1,166 @@
+---
+title: "Final Project Template"
+author: "Team member names here."
+format: pdf
+editor: visual
+---
+
+Feel free to change render format to html using
+
+format: html
+
+self-contained: true
+
+## Instructions
+
+This is the template document for the final project. You must use the template document for your code, since it will make it much easier to follow.
+
+## Libraries and data load
+
+Put whatever libraries you use here.
+
+```{r}
+
+```
+
+Load the data here
+
+```{r}
+
+```
+
+## Exploratory data analysis(EDA) part 1
+
+For this section: Check for variables with missing data, units of variables, and for variables you need to log. You are also welcome to check for relationships between variables.
+
+### Checking for missing data
+Check all variables for missing data. Which variables should you think about removing before modeling if missing data will cause problems? Do not remove them now, but do list them.
+
+### Units of variables
+
+Looking at the variables are there any where the units are not controlled for population? Fix that now. Any other concerns about units of measurement?
+
+### Logging variables
+
+Which variables have you logged in the past? Which variables do you think you should log here additionally? This space is for graphing and then logging the variables in the data. Make sure to drop the unlogged values now so you do not accidently include both the logged and the unlogged value in the model.
+
+### More EDA (optional)
+This is an optional ungraded area for any extra EDA you would like to do now, like checking variables vs. predictors
+
+## CV or testing/training for overfitting
+Choose between CV or a testing/training split for overfitting. Which one did you pick and why? If doing a training/testing split, do it here.
+
+## Regression model
+### Which method are you using?
+State which method you are using.
+### Missing values drop
+Should you be dropping missing values for your technique? If so are there variables you should drop before dropping rows with missing values? Put the code and explanation here.
+
+
+### Making model
+Make your regression model. Tune or feature select as suitable for your model. 
+
+### Which variables
+
+Which variables are in your final model/are the most important in your model? Any surprises? Any concerns?
+
+### Check for overfitting
+Check for overfitting.
+
+### Evaluate model quality
+Evaluate model quality
+
+## Classification model
+### Which method are you using?
+State which method you are using.
+
+### Missing values drop
+Should you be dropping missing values for your technique? If so are there variables you should drop before dropping rows with missing values? Put the code and explanation here.
+
+
+### Making model
+Make your classification model. Tune or feature select as suitable for your model. 
+
+### Which variables
+
+Which variables are in your final model/are the most important in your model? Any surprises? Any concerns?
+
+### Check for overfitting
+Check for overfitting.
+
+### Evaluate model quality
+Evaluate model quality
+
+
+## Variable selection comparison
+
+What were the similarities and the difference between the variables selected for each model. Is there anything you expected? Are there surprises? 
+
+
+## Clustering and PCA
+### Which clustering method are you using? Which variable will you compare?
+State which method you are using.
+
+State which categorical variable you will use as a hold out.
+
+### Missing values drop
+Should you be dropping missing values for your technique? If so are there variables you should drop before dropping rows with missing values? Put the code and explanation here.
+
+### Will you use categorical variables in your clusters?
+
+Will you use categorical variables in your clusters? If so how will you deal with them and where did you get that information from? If not, why not?
+
+### Making clusters
+Make your clusters. Tune for how many clusters as part of the process.
+
+### Cluster quality
+
+Evaluate cluster metrics on your final clusters.
+
+### Check against hold out categorical variable
+Did the clusters match your hold out categorical variable. Make a graph that shows the relationship and discuss.
+
+### PCA
+
+Perform PCA on your quantitative variables. 
+
+### Which components?
+
+Which components would you use of your PCA?
+
+### Loading/biplot
+
+Make a loading plot/biplot for the first two components. You may additionally want to make a bar chart of the coefficents. What does this tell you about the PCA components and your variables?
+
+
+### Compare to clusters
+
+Make a graph of your clusters, your hold out category, and the first two components of your PCA. What does this tell you about your clusters?
+
+## Your question
+
+Come up with at least one other question that could be answered by your data using a machine learning technique(not just a visualiation/statistics). You may use any technique you did not use in the previous parts of the project and are welcome to choose to learn a new machine learning technique that we did not cover in class. Explain what the results mean, evaluate the preformance quality of whatever technique you used, and what questions you have about the data from the results. 
+
+
+## Additional EDA
+
+### Additional EDA for regression
+
+Make some visualizations of the relationship between the selected/most important variables in your model.  Make sure to describe your graphs.
+
+Goal: Represent the most interesting parts of the relationship possible. This will probably require making a number of graphs and picking the best one. You'll want to use this best one in your paper.
+### Additional EDA for classification
+Make some visualizations of the relationship between the selected/most important variables in your model. Make sure to describe your graphs. You may want to compute some statistics as well.
+
+Goal: Represent the most interesting parts of the relationship possible. This will probably require making a number of graphs and picking the best one. You'll want to use this best one in your paper. 
+
+
+### Other additional EDA (optional)
+
+This is a space for additional EDA that is related to your clustering/PCA or additional question. Make sure to describe your graphs. You may want to compute some statistics as well.
+
+## Conclusions and unanswered questions
+
+What was the best discovery you made about the data?
+
+What questions do you wish the data could have answered that you did not yet explore?
