@@ -55,7 +55,7 @@ Looking at the variables are there any where the units are not controlled for po
 
 ### Logging variables
 
-Which variables have you logged in the past? Which variables do you think you should log here additionally? This space is for graphing and then logging the variables in the data. Make sure to drop the unlogged values now so you do not accidently include both the logged and the unlogged value in the model.
+Which variables have you logged in the past? Which variables do you think you should log here additionally? This space is for graphing and then logging the variables in the data. Make sure to drop the unlogged values now so you do not accidentally include both the logged and the unlogged value in the model.
 
 ### More EDA (optional)
 
@@ -163,7 +163,7 @@ Which components would you use of your PCA?
 
 ### Loading/biplot
 
-Make a loading plot/biplot for the first two components. You may additionally want to make a bar chart of the coefficents. What does this tell you about the PCA components and your variables?
+Make a loading plot/biplot for the first two components. You may additionally want to make a bar chart of the coefficients. What does this tell you about the PCA components and your variables?
 
 ### Compare to clusters
 
@@ -171,7 +171,7 @@ Make a graph of your clusters, your hold out category, and the first two compone
 
 ## Your question
 
-Come up with at least one other question that could be answered by your data using a machine learning technique(not just a visualiation/statistics). You may use any technique you did not use in the previous parts of the project and are welcome to choose to learn a new machine learning technique that we did not cover in class. Explain what the results mean, evaluate the preformance quality of whatever technique you used, and what questions you have about the data from the results.
+Come up with at least one other question that could be answered by your data using a machine learning technique(not just a visualization/statistics). You may use any technique you did not use in the previous parts of the project and are welcome to choose to learn a new machine learning technique that we did not cover in class. Explain what the results mean, evaluate the performance quality of whatever technique you used, and what questions you have about the data from the results.
 
 ## Additional EDA
 
@@ -179,7 +179,11 @@ Come up with at least one other question that could be answered by your data usi
 
 Make some visualizations of the relationship between the selected/most important variables in your model. Make sure to describe your graphs.
 
-Goal: Represent the most interesting parts of the relationship possible. This will probably require making a number of graphs and picking the best one. You'll want to use this best one in your paper. \### Additional EDA for classification Make some visualizations of the relationship between the selected/most important variables in your model. Make sure to describe your graphs. You may want to compute some statistics as well.
+Goal: Represent the most interesting parts of the relationship possible. This will probably require making a number of graphs and picking the best one. You'll want to use this best one in your paper.
+
+### Additional EDA for classification
+
+Make some visualizations of the relationship between the selected/most important variables in your model. Make sure to describe your graphs. You may want to compute some statistics as well.
 
 Goal: Represent the most interesting parts of the relationship possible. This will probably require making a number of graphs and picking the best one. You'll want to use this best one in your paper.
 
