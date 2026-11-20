@@ -28,8 +28,9 @@ library(tidymodels)
 library(glmnet)
 library(rpart)
 library(rpart.plot)
-library(ranger)
-library(kknn)
+library(ranger) # for random forests
+library(kknn) # for knn
+library(tidyclust) # for clustering 
 
 ```
 
@@ -61,7 +62,7 @@ Which variables have you logged in the past? Which variables do you think you sh
 
 This is an optional ungraded area for any extra EDA you would like to do now, like checking variables vs. predictors
 
-## CV or testing/training for overfitting 
+## CV or testing/training for overfitting
 
 Choose between CV or a testing/training split for overfitting. Which one did you pick and why? If doing a training/testing split, do it here.
 
@@ -131,17 +132,55 @@ What were the similarities and the difference between the variables selected for
 
 State which method you are using.
 
+**Kmeans Clustering**
+
 State which categorical variable you will use as a hold out.
+
+**sexual_harassment** - "Is there legal protection against sexual harassment in employment in the country?"
 
 ### Missing values drop
 
 Should you be dropping missing values for your technique? If so are there variables you should drop before dropping rows with missing values? Put the code and explanation here.
+
+*Explanation:* For Kmeans it is best to drop missing values. We should remove any variables PRIOR to dropping missing values so we do not remove additional rows. We are planning on removing categorical variables for Kmeans clustering.  
+
+```{r}
+
+
+gapminderCluster <- gapminder|>
+  select()|> # Remove categorical vars
+    drop_na() # Drop missing values
+
+```
+
 
 ### Will you use categorical variables in your clusters?
 
 Will you use categorical variables in your clusters? If so how will you deal with them and where did you get that information from? If not, why not?
 
 ### Making clusters
+
+```{r}
+#Peform k-means clustering
+
+set.seed(123)
+kmeans4_spec<- k_means(num_clusters = 4) |>
+  set_engine("stats")
+
+kmeans4_rec<- recipe(~., data=gapminderCluster)
+
+kmeans4_wf<-workflow()|>
+  add_recipe(kmeans4_rec)|>
+  add_model(kmeans4_spec)
+
+kmeans4_fit <-kmeans4_wf|>
+  fit(data = gapminder_train)
+
+#need to figure out how to combine.
+kmeans4_fit|>sse_within_total(gapminderCluster)
+kmeans4_fit|>silhouette_avg(gapminderCluster)
+```
+
 
 Make your clusters. Tune for how many clusters as part of the process.
 
