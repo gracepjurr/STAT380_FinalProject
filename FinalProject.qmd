@@ -49,19 +49,125 @@ For this section: Check for variables with missing data, units of variables, and
 
 Check all variables for missing data. Which variables should you think about removing before modeling if missing data will cause problems? Do not remove them now, but do list them.
 
+```{r}
+#Some countries rows has no name so im filtering those out (L4- discl doc)
+gap <- gapminder |>
+  filter(!is.na(name))
+glimpse(gap)
+```
+
+```{r}
+# Checking for the missing values(L12- put in disclosure doc)
+gap |>
+  summarise(across(everything(), ~ sum(is.na(.x))))
+
+```
+
+\-**energy_use_per_person, natural_disaster_deaths, happiness, cell_phones**
+
 ### Units of variables
 
 Looking at the variables are there any where the units are not controlled for population? Fix that now. Any other concerns about units of measurement?
+
+```{r}
+
+gap <- gap |>
+  mutate(disaster_deaths_per_100k = natural_disaster_deaths / population * 100000) |>
+  select(-natural_disaster_deaths)
+
+head(gap)
+```
 
 ### Logging variables
 
 Which variables have you logged in the past? Which variables do you think you should log here additionally? This space is for graphing and then logging the variables in the data. Make sure to drop the unlogged values now so you do not accidentally include both the logged and the unlogged value in the model.
 
+```{r}
+#Stat tables, checking for where tehre are actual values (l4- discl doc))
+gap |>
+  summarize(mean_gdp = mean(gdp, na.rm = TRUE),
+            median_gdp = median(gdp, na.rm = TRUE),
+            mean_pop = mean(population, na.rm = TRUE),
+            median_pop = median(population, na.rm = TRUE),
+            mean_murder = mean(murder_rate, na.rm = TRUE),
+            median_murder = median(murder_rate, na.rm = TRUE))
+```
+
+```{r}
+gap |>
+  ggplot(mapping = aes(x = gdp)) +
+  geom_histogram() +
+  labs(title = "GDP per capita", x = "GDP per capita", y = "Count")
+```
+
+```{r}
+gap |>
+  ggplot(mapping = aes(x = population)) +
+  geom_histogram() +
+  labs(title = "Population", x = "Population", y = "Count")
+
+```
+
+```{r}
+gap |>
+  ggplot(mapping = aes(x = daily_income)) +
+  geom_histogram() +
+  labs(title = "Daily income", x = "Daily income", y = "Count")
+
+```
+
+```{r}
+gap |>
+  ggplot(mapping = aes(x = cell_phones)) +
+  geom_histogram() +
+  labs(title = "Cell phones per 100 people", x = "Cell phones", y = "Count")
+```
+
+```{r}
+gap |>
+  ggplot(mapping = aes(x = health_spending_per_person)) +
+  geom_histogram() +
+  labs(title = "Health spending per person", x = "Health spending", y = "Count")
+
+```
+
+```{r}
+gap |>
+  ggplot(mapping = aes(x = murder_rate)) +
+  geom_histogram() +
+  labs(title = "Murder rate", x = "Murder rate", y = "Count")
+```
+
+```{r}
+gap |>
+  ggplot(mapping = aes(x = co2_per_capita)) +
+  geom_histogram() +
+  labs(title = "CO2 per capita", x = "CO2 per capita", y = "Count")
+```
+
+```{r}
+gap |>
+  ggplot(mapping = aes(x = disaster_deaths_per_100k)) +
+  geom_histogram() +
+  labs(title = "Disaster deaths per 100,000", x = "Deaths per 100,000", y = "Count")
+```
+
+```{r}
+gap |>
+  ggplot(mapping = aes(x = energy_use_per_person)) +
+  geom_histogram() +
+  labs(title = "Energy use per person", x = "Energy use", y = "Count")
+```
+
 ### More EDA (optional)
 
 This is an optional ungraded area for any extra EDA you would like to do now, like checking variables vs. predictors
 
-## CV or testing/training for overfitting 
+```{r}
+
+```
+
+## CV or testing/training for overfitting
 
 Choose between CV or a testing/training split for overfitting. Which one did you pick and why? If doing a training/testing split, do it here.
 
