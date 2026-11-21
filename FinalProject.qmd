@@ -184,21 +184,102 @@ State which method you are using.
 
 Should you be dropping missing values for your technique? If so are there variables you should drop before dropping rows with missing values? Put the code and explanation here.
 
+```{r}
+gap |>
+  summarise(across(everything(), ~ sum(is.na(.x))))
+
+gap_knnreg <- gap |> 
+  select(-c(energy_use_per_person, cell_phones, happiness, disaster_deaths_per_100k, geo, name)) |> 
+  drop_na()
+
+```
+
 ### Making model
 
 Make your regression model. Tune or feature select as suitable for your model.
+
+```{r}
+
+reg_metrics <- metric_set(mae, mse, rmse)
+
+# Folds
+set.seed(2005)
+folds <- vfold_cv(gap_knnreg, v = 5)
+
+# Recipe
+knnreg_recipe <- recipe(murder_rate ~ ., data = gap_knnreg) |>
+  step_novel(all_nominal_predictors()) |>
+  step_dummy(all_nominal_predictors()) |>
+  step_zv(all_predictors()) |>
+  step_normalize(all_numeric_predictors())
+
+# Specify the KNN model and mark 'neighbors' as tune()
+knnreg_spec <- nearest_neighbor(neighbors=tune(), weight_func = "rectangular") |>
+  set_engine("kknn")|>
+  set_mode("regression")
+
+# Create a workflow
+knnreg_wf<-workflow()|>
+  add_recipe(knnreg_recipe)|>
+  add_model(knnreg_spec)
+
+# Tuning grid
+knnreg_grid <- tibble(neighbors = seq(from=1, to=15, by=2))
+
+# Cross validation
+knnreg_cv <- tune_grid(
+  knnreg_wf,
+  resamples = folds,
+  grid = knnreg_grid,
+  metrics = reg_metrics
+)
+cv_metrics_knnreg<-collect_metrics(knnreg_cv)
+
+# Plotting and finding the best k-nearest neighbors
+autoplot(knnreg_cv, metric = "rmse")
+
+best_k <- select_best(knnreg_cv, metric = "rmse")
+
+# New specification using tuned k-nearest neighbors
+knnreg_best_spec<-nearest_neighbor(neighbors=3,  weight_func = "rectangular") |>
+  set_engine("kknn")|>
+  set_mode("regression")
+
+# New workflow for tuned k-nearest neighbors
+knnreg_best_wf<-workflow()|>
+  add_recipe(knnreg_recipe)|>
+  add_model(knnreg_best_spec)
+
+# Fit the final model
+knnreg_fit <- 
+  knnreg_best_wf |> 
+  fit(data = gap_knnreg)
+
+```
 
 ### Which variables
 
 Which variables are in your final model/are the most important in your model? Any surprises? Any concerns?
 
+```{r}
+
+```
+
 ### Check for overfitting
 
 Check for overfitting.
 
+```{r}
+
+```
+
 ### Evaluate model quality
 
 Evaluate model quality
+
+```{r}
+
+```
 
 ## Classification model - Random Forest
 
@@ -210,21 +291,78 @@ State which method you are using.
 
 Should you be dropping missing values for your technique? If so are there variables you should drop before dropping rows with missing values? Put the code and explanation here.
 
+```{r}
+gap |>
+  summarise(across(everything(), ~ sum(is.na(.x))))
+
+gap_rf <- gap |> 
+  select(-c(energy_use_per_person, cell_phones, happiness, disaster_deaths_per_100k, geo, name)) |> 
+  drop_na()
+```
+
 ### Making model
 
 Make your classification model. Tune or feature select as suitable for your model.
+
+```{r}
+rf_recipe=recipe(sexual_harassment ~ ., data = gap_rf) |>
+  step_novel(all_nominal_predictors()) |>
+  step_dummy(all_nominal_predictors()) |>
+  step_zv(all_predictors()) |>
+  step_normalize(all_numeric_predictors())
+
+rf_spec <- rand_forest() |>
+  set_mode("classification")|>
+  set_engine("ranger",importance = "impurity") #Impurity here is sum of squares residual
+
+rf_workflow <- workflow() |>
+  add_recipe(rf_recipe) |>
+  add_model(rf_spec)
+
+rf_fit=rf_workflow |>
+  fit(data = gap_rf)
+```
 
 ### Which variables
 
 Which variables are in your final model/are the most important in your model? Any surprises? Any concerns?
 
+```{r}
+importance_values <- rf_fit |>
+  extract_fit_engine() |> 
+  ranger::importance() 
+
+importance_df=importance_values <- tibble(
+  Variable = names(importance_values),
+  Importance = importance_values
+)
+
+importance_df |>
+  ggplot(aes(x = reorder(Variable, Importance), y = Importance)) +
+  geom_point() +
+  coord_flip() +  # Makes variables easy to read vertically
+  labs(
+    title = "Random Forest Variable Importance",
+    x = "Features",
+    y = "Importance (Impurity reduction)"
+  )
+```
+
 ### Check for overfitting
 
 Check for overfitting.
 
+```{r}
+
+```
+
 ### Evaluate model quality
 
 Evaluate model quality
+
+```{r}
+
+```
 
 ## Variable selection comparison
 
@@ -248,7 +386,7 @@ State which categorical variable you will use as a hold out.
 
 Should you be dropping missing values for your technique? If so are there variables you should drop before dropping rows with missing values? Put the code and explanation here.
 
-*Explanation:* For Kmeans it is best to drop missing values. We should remove any variables PRIOR to dropping missing values so we do not remove additional rows. We are planning on removing categorical variables for Kmeans clustering.  
+*Explanation:* For Kmeans it is best to drop missing values. We should remove any variables PRIOR to dropping missing values so we do not remove additional rows. We are planning on removing categorical variables for Kmeans clustering.
 
 ```{r}
 
@@ -258,7 +396,6 @@ gapminderCluster <- gapminder|>
     drop_na() # Drop missing values
 
 ```
-
 
 ### Will you use categorical variables in your clusters?
 
@@ -286,7 +423,6 @@ kmeans4_fit <-kmeans4_wf|>
 kmeans4_fit|>sse_within_total(gapminderCluster)
 kmeans4_fit|>silhouette_avg(gapminderCluster)
 ```
-
 
 Make your clusters. Tune for how many clusters as part of the process.
 
